@@ -1,48 +1,44 @@
 -----
 isHidden:       false
 theme: scientific
-image: /Scratch/img/blog/Yesod-tutorial-for-newbies/flying_neo.jpg
+image: img/01_flying_neo.jpg
 menupriority:   1
 kind:           article
 published: 2012-01-15
-title: Haskell web programming
-subtitle: A Yesod tutorial
+title: Web-программирование на Haskell
+subtitle: Туториал по Yesod
 author: Yann Esposito
 authoruri: yannesposito.com
 tags:  yesod, haskell, programming, web
 -----
-blogimage("flying_neo.jpg","Neo Flying at warp speed")
+blogimage("img/01_flying_neo.jpg","Neo Flying at warp speed")
 
 <div class="intro">
 
-_update_: updated for Yesod 1.2
+_update_: обновлено для Yesod 1.2
 
-%tldr A simple Yesod tutorial.
-Yesod is a Haskell web framework.
-You shouldn't need to know Haskell.
+%tldr Простое пособие по Yesod. 
+Yesod - это web-фреймворк на Haskell. 
+Вам даже не нужно знать Haskell.
 
 </div>
 
-Why Haskell?
+Почему Haskell?
 
-blogimage("haskell-benchmark.png","Impressive Haskell Benchmark")
+blogimage("img/02_haskell-benchmark.png","Impressive Haskell Benchmark")
 
-Its efficiency (see [Snap Benchmark][snapbench] _&_
-[Warp Benchmark][warpbench][^benchmarkdigression]).
+Из-за его эффективности (см. <a href="http://snapframework.com/blog/2010/11/17/snap-0.3-benchmarks">бенчмарк Snap</a> и <a href="http://www.yesodweb.com/blog/2011/03/preliminary-warp-cross-language-benchmarks"></a> <a href="fn#1">[1]</a>).
 Haskell is an order of magnitude faster than interpreted languages
 like [Ruby][haskellvsruby] and [Python][haskellvspython][^speeddigression].
+Из-за его эффективности (см. <a href="http://snapframework.com/blog/2010/11/17/snap-0.3-benchmarks">бенчмарк Snap</a> и <a href="http://www.yesodweb.com/blog/2011/03/preliminary-warp-cross-language-benchmarks"/>).
+Haskell на порядок быстрее, чем такие интерпретируемые языки, как <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=yarv">Ruby</a> и <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=python3">Python</a> <a href="fn#2">[2]</a>.
+Haskell - высокоуровневый язык программирования, с помощью которого гораздо тяжелее выстрелить себе в ногу по сравнению с `C`, `C++` или `Java`, например. 
+Одно из лучших свойств Haskell:
+> Если ваше приложение скомпилировано, то его работа очень близка к той, что закладывал в неё программист.
 
-Haskell is a high level language that makes it harder to shoot yourself in the foot
-than `C`, `C++` or `Java`, for example.
-One of the best properties of Haskell is:
+Web-фреймворк на Haskell идеально обрабатывает распараллеленные задачи, даже лучше, чем, например, node.js <a href="fn#3">[3].</a>
 
-> "If your program compiles it will be
->  very close to what the programmer intended".
-
-Haskell web frameworks handle parallel tasks perfectly---even better than
-node.js[^nodejstroll], for example.
-
-leftblogimage("thousands_smiths.jpg","Thousands of Agent Smith")
+leftblogimage("img/03_thousands_smiths.jpg","Thousands of Agent Smith")
 
 From a purely technical point of view,
 Haskell seems to be the perfect web development tool.
