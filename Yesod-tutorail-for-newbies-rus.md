@@ -40,13 +40,12 @@ Web-фреймворк на Haskell идеально обрабатывает р
 
 leftblogimage("img/03_thousands_smiths.jpg","Thousands of Agent Smith")
 
-From a purely technical point of view,
-Haskell seems to be the perfect web development tool.
-Weaknesses of Haskell certainly won't be technical:
+С чисто технической точки зрения Haskell кажется идеальным инструментом для web-разработки.
+Слабая сторона Хаскелля не техническая: 
 
-- Hard to grasp Haskell
-- Hard to find a Haskell programmer
-- The Haskell community is smaller than the community for `/.*/`
+- тяжёлый порог вхождения в Haskell;
+- непросто найти Haskell-программиста;
+- Сообщество Haskell меньше, чем для `/.*/`;
 - <strike>There is not yet a [heroku](http://heroku.com) for Haskell.
   Even In fact, I use heroku to host my websites but this isn't straightforward
   (see the [how to](https://github.com/yesodweb/yesod/wiki/Deploying-Yesod-Apps-to-Heroku)).</strike>
