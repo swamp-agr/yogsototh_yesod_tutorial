@@ -27,9 +27,6 @@ Yesod - это web-фреймворк на Haskell.
 
 blogimage("img/02_haskell-benchmark.png","Impressive Haskell Benchmark")
 
-Из-за его эффективности (см. <a href="http://snapframework.com/blog/2010/11/17/snap-0.3-benchmarks">бенчмарк Snap</a> и <a href="http://www.yesodweb.com/blog/2011/03/preliminary-warp-cross-language-benchmarks"></a> <a href="fn#1">[1]</a>).
-Haskell is an order of magnitude faster than interpreted languages
-like [Ruby][haskellvsruby] and [Python][haskellvspython][^speeddigression].
 Из-за его эффективности (см. <a href="http://snapframework.com/blog/2010/11/17/snap-0.3-benchmarks">бенчмарк Snap</a> и <a href="http://www.yesodweb.com/blog/2011/03/preliminary-warp-cross-language-benchmarks"/>).
 Haskell на порядок быстрее, чем такие интерпретируемые языки, как <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=yarv">Ruby</a> и <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=python3">Python</a> <a href="fn#2">[2]</a>.
 Haskell - высокоуровневый язык программирования, с помощью которого гораздо тяжелее выстрелить себе в ногу по сравнению с `C`, `C++` или `Java`, например. 
@@ -46,48 +43,41 @@ leftblogimage("img/03_thousands_smiths.jpg","Thousands of Agent Smith")
 - тяжёлый порог вхождения в Haskell;
 - непросто найти Haskell-программиста;
 - Сообщество Haskell меньше, чем для `/.*/`;
-- <strike>There is not yet a [heroku](http://heroku.com) for Haskell.
-  Even In fact, I use heroku to host my websites but this isn't straightforward
-  (see the [how to](https://github.com/yesodweb/yesod/wiki/Deploying-Yesod-Apps-to-Heroku)).</strike>
-  [FPComplete](http://fpcomplete.com) has now filled this hole.
-  And they provide not only cloud hosting but also a
-  complete IDE and Haskell environment to work with.
+- <strike>Пока ещё не существует <a href="http://heroku.com">heroku</a> для Haskell. Даже принимая во внимание тот факт, что я использую heroku для того, чтобы хостить свои сайты, это не так-то просто (смотри <a href="https://github.com/yesodweb/yesod/wiki/Deploying-Yesod-Apps-to-Heroku">HOW-TO</a>).</strike>
+   <a href="http://fpcomplete.com/">FPComlete</a> теперь закрыло и эту дыру. 
+   И они не только предоставляют облачный хостинг, но ещё и полноценную IDE и окружение Haskell для работы с ним.
 
-I won't say these are not important drawbacks. But with Haskell your web
-application will be able to both absorb an impressive number of parallel
-requests securely and to adapt to change.
+Я не говорю о том, что эти недостатки несущественны. Но с Haskell ваше web-приложение будет способно как безопасно поглощать внушительное число параллельных запросов, так и приспосабливаться к изменениям.
 
-Actually there are three main Haskell web frameworks:
+Вообще-то, существует три основных web-фреймворка на Haskell:
 
 1. [Happstack](http://happstack.com)
 2. [Snap](http://snapframework.com)
 3. [Yesod](http://yesodweb.com)
 
-I don't think there is a real winner between these three framework.
-The choice I made for Yesod is highly subjective.
-I just lurked a bit and tried some tutorials.
-I had the feeling Yesod did a better job at helping newcomers.
-Furthermore, the Yesod team seems the most active.
-Of course I might be wrong since this is just an impression.
+Не думаю, что среди них есть реальный победный фреймворк.
+Выбор, который я сделал в пользу Yesod, был очень субъективный.
+Я немного притаился(?!) и попробовал несколько пособий.
+Я чувствовал, что Yesod делает больше для помощи новичкам.
+Более того, команда разработчиков Yesod выглядела наиболее активной.
+Конечно, я могу ошибаться, ведь это всего лишь впечатление.
 
-blogimage("owl_draw.png","1. Draw some circles. 2. Draw the rest of the fucking owl")
+blogimage("img/04_owl_draw.png","1. Draw some circles. 2. Draw the rest of the fucking owl")
 
-Why did I write this article?
-The Yesod documentation and particularly the book are excellent.
-But I missed an intermediate tutorial.
-This tutorial won't explain all details.
-I tried to give a step by step of how to start from a five minute tutorial
-to an almost production ready architecture.
-Furthermore explaining something to others is a great way to learn.
-If you are used to Haskell and Yesod, this tutorial won't teach you much.
-If you are completely new to Haskell and Yesod, hopefully it will help you.
-Also if you find yourself too confused by the syntax, it might helps to read this
-[article](http://blog.ezyang.com/2011/11/how-to-read-haskell/)
+Зачем я пишу эту статью?
+Документация Yesod и, в частности, книга - бесподобны.
+Однако я не нашёл промежуточный туториал.
+Этот туториал не объясняет всех деталей.
+Я пытался дать пошаговую инструкцию о том, как начать из пятиминутного пособия и прийти к вполне готовой для эксплуатации архитектуре.
+Более того, донести что-то других - хороший способ научиться самому.
+Если вы уже используете Haskell и Yesod - эта статья многому вас не научит.
+Но если вы - абсолютный новичок в Haskell и Yesod, то надеюсь, вам это будет полезно.
+Также если вас будет смущать синтаксис, то рекомендую ознакомиться с этой <a href="http://blog.ezyang.com/2011/11/how-to-read-haskell/">статьёй</a>.
 
-During this tutorial you'll install, initialize, and configure your first Yesod project.
-Then there is a very minimal 5 minute Yesod tutorial to get us warmed up and confirm the awesomeness of Yesod.
-Then we will clean up the 5 minute tutorial to use some "best practices".
-Finally there will be a more standard real world example: a minimal blog system.
+В течение этой статьи вы установите, инициализируете и сконфигурируете ваш первый Yesod проект.
+Затем будет пятиминутный маленький туториал Yesod для того, чтобы разогреться и ощутить всю удивительность Yesod.
+Затем мы вычистим пятиминутный туториал, использовав `best practices`.
+Напоследок останется минимальный прототип платформы блога - более стандартный пример из реального мира.
 
 [snapbench]: http://snapframework.com/blog/2010/11/17/snap-0.3-benchmarks
 
