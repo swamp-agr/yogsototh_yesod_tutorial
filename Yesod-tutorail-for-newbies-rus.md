@@ -93,55 +93,54 @@ blogimage("img/04_owl_draw.png","1. Draw some circles. 2. Draw the rest of the f
 
 [haskellvspython]: http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=python3
 
-## Before the real start
+## Перед реальным стартом
 
-### Install
+### Установка
 
-The recommended way to install [Haskell][haskell]
-is to download the [Haskell Platform][haskellplatform].
+Рекомендуемый путь установки Haskell - скачать <a href="http://www.haskell.org/platform">Haskell Platform</a>.
 
 [haskell]: http://www.haskell.org
 
 [haskellplatform]: http://www.haskell.org/platform
 
-Once done, you need to install Yesod.
-Open a terminal session and do:
+Как только это будет сделано, нужно будет поставить Yesod.
+Откроем терминальную сессию и сделаем следующее:
 
 ~~~~~~ {.bash}
 ~ cabal update
 ~ cabal install yesod yesod-bin cabal-dev
 ~~~~~~
 
-There are few steps but it should take some time to finish.
+Здесь несколько шагов, но их выполнение займёт какое-то время до окончания.
 
-### Initialize
+### Инициализация
 
-You are now ready to initialize your first Yesod project.
-Open a terminal and type:
+Теперь вы готовы инициализировать ваш первый Yesod проект.
+Откройте терминал и наберите там:
 
 ~~~~~~ {.bash}
 ~ yesod init
 ~~~~~~
 
-Enter your name, choose `yosog` for the project name and enter `Yosog` for the name of the Foundation.
-Finally choose `sqlite`.
-Now, start the development cycle:
+Введите ваше имя, выберите `yosog` в качестве названия вашего проекта и введите `Yosog` для наименования основания (Foundation).
+Наконец, выберите `sqlite`.
+Теперь, начнём цикл разработки:
 
 ~~~~~~ {.bash}
 ~ cd yosog
 ~ cabal-dev install && yesod --dev devel
 ~~~~~~
 
-This will compile the entire project. Be patient, since it will take a while the first time.
-Once finished a server is launched and you can visit it by clicking this link:
+Эти команды скомпилируют ваш проект целиком. Сохраняйте спокойствие, поскольку процесс в первый раз займёт достаточно времени.
+Как только процесс закончится, запустится сервер, и вы сможете зайти на него, перейдя по ссылке:
 
 [`http://localhost:3000`](http://localhost:3000)
 
-Congratulation! Yesod works!
+Поздравляю! Yesod работает!
 
 <blockquote>
 
-Note: if something is messed up use the following command at the command line inside the project directory.
+Примечание: если что-то пошло не так, используйте следующую команду внутри директории с проектом:
 
 ~~~~~~ {.bash}
 \rm -rf dist/* ; cabal-dev install && yesod --dev devel
@@ -149,8 +148,7 @@ Note: if something is messed up use the following command at the command line in
 
 </blockquote>
 
-For the rest of the tutorial, use another terminal and keep this one open
-in a corner to see what happens.
+Для оставшейся части туториала используйте другой терминал, а этот поместите в угол экрана и оставьте открытым, чтобы наблюдать за происходящим.
 
 ### Configure git
 
