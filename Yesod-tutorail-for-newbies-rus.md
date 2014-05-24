@@ -138,25 +138,21 @@ blogimage("img/04_owl_draw.png","1. Draw some circles. 2. Draw the rest of the f
 
 Поздравляю! Yesod работает!
 
-<blockquote>
-
-Примечание: если что-то пошло не так, используйте следующую команду внутри директории с проектом:
+> Примечание: если что-то пошло не так, используйте следующую команду внутри директории с проектом:
 
 ~~~~~~ {.bash}
 \rm -rf dist/* ; cabal-dev install && yesod --dev devel
 ~~~~~~
 
-</blockquote>
+Для оставшейся части туториала используйте другой терминал, а этот поместите 
+в угол экрана и оставьте открытым, чтобы наблюдать за происходящим.
 
-Для оставшейся части туториала используйте другой терминал, а этот поместите в угол экрана и оставьте открытым, чтобы наблюдать за происходящим.
+### Настройка git
 
-### Configure git
+> Конечно, этот шаг не обязателен для туториала, но это хорошая практика.
 
-> Of course this step is not mandatory for the tutorial
-> but it is a good practice.
-
-Fortunately, there is already a `.gitignore` file into the `yosog` folder.
-You just have to initialize your git repository:
+К счастью, файл `.gitignore` уже существует в директории `yosog`.
+Поэтому достаточно инициализировать ваш репозиторий git.
 
 ~~~~~~ {.bash}
 ~ git init .
@@ -164,9 +160,9 @@ You just have to initialize your git repository:
 ~ git commit -a -m "Initial yesod commit"
 ~~~~~~
 
-We are almost ready to start.
+Мы почти готовы начать.
 
-### A few words before we start
+### Несколько слов перед стартом
 
 Up until here, we have a directory containing a bunch of files
 and a local web server listening the port 3000.
