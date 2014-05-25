@@ -164,41 +164,39 @@ blogimage("img/04_owl_draw.png","1. Draw some circles. 2. Draw the rest of the f
 
 ### Несколько слов перед стартом
 
-Up until here, we have a directory containing a bunch of files
-and a local web server listening the port 3000.
-If we modify a file inside this directory, Yesod should try
-to recompile as fast as possible the site.
-Instead of explaining the role of every file,
-let's focus only on the important files/directories for this tutorial:
+На текущий момент у нас есть директория, содержащая пучок файлов, 
+и локальный web-сервер, слушающий порт 3000.
+Если мы модифицируем файл из этой директории, Yesod попробует пересобрать изменения как можно быстрее.
+Вместо объяснения роли каждого файла, давайте сосредоточимся лишь на самых важных файлах/директориях в этом туториале:
 
 1. `config/routes`
 2. `Handler/`
 3. `templates/`
 4. `config/models`
 
-Obviously:
+Очевидно, что:
 
-<table><tr><td> `config/routes`      </td><td>is where you'll configure the map %url → Code.
-</td></tr><tr><td> `Handler/`        </td><td> contains the files that will contain the code called when a %url is accessed.
-</td></tr><tr><td> `templates/`      </td><td> contains %html, js and %css templates.
-</td></tr><tr><td> `config/models`   </td><td> is where you'll configure the persistent objects (database tables).
+<table><tr><td> `config/routes`      </td><td>: здесь конфигурируется отображение %url → Код.
+</td></tr><tr><td> `Handler/`        </td><td>: содержатся файлы, в которых будет лежать исполняемый код, когда к нему обратятся по соответствующему %url.
+</td></tr><tr><td> `templates/`      </td><td>: содержит %html, js и %css шаблоны.
+</td></tr><tr><td> `config/models`   </td><td>: здесь настраиваются персистентные объекты (таблиц БД).
 </td></tr></table>
 
-During this tutorial we'll modify other files as well,
-but we won't explore them in detail.
+В течение этого туториала мы будем также модифицировать и другие файлы, 
+но не станем на них детально останавливаться.
 
-Also note, shell commands are executed in the root directory of your project unless specified otherwise.
+Также замечу, что команды для эмулятора терминала запускаются в рутовой директории вашего проекта по умолчанию, если, конечно, не сказано другое.
 
-We are now ready to start!
+Теперь мы готовы к старту!
 
-## Echo
+## Эхо
 
-To verify the quality of the security of the Yesod framework,
-let's make a minimal echo application.
+Для того, чтобы подтвердить качество безопасности фреймворка Yesod,
+давайте сделаем минимальное приложение-эхо.
 
-> Goal:
+> Цель:
 >
-> Make a server that when accessed `/echo/[some text]` should return a web page containing "some text" inside an `h1` bloc.
+> Сделать такой сервер, чтобы когда к нему обращались `/echo/[какой-то текст]`, он возвращал страницу, содержащую "какой-то текст" внутри `h1` блока.
 
 ~~~ {.no-highlight}
 ~/Sites/yosog $ {-hi-}yesod add-handler{-/hi-}
@@ -207,24 +205,24 @@ Enter route pattern (ex: /entry/#EntryId): {-hi-}/echo/#String{-/hi-}
 Enter space-separated list of methods (ex: GET POST): {-hi-}GET{-/hi-}
 ~~~
 
-Almost all the work is done for us. The `add-handler` does the following:
+Почти вся работа сделана за нас. `add-handler` выполняет следующие действия:
 
-Updates the `config/route` file by appending:
+Обновляет `config/route` файл, добавляя в конец:
 
 ~~~
 /echo/#String EchoR GET
 ~~~
 
-This line contains three elements: the %url pattern, a handler name, an %http method.
+эта строка содержит три элемента: шаблон %url, наименование обработчика, метод %http
 
-- creates a `Handler/Echo.hs` file
-- imports `Handler.Echo` in the main `Application.hs` file
-- declares `Handler.Echo` in the cabal file for building the application
+- создаёт файл `Handler/Echo.hs`
+- импортиует `Handler.Echo` в основной файл приложения `Application.hs`
+- объявляет `Handler.Echo` в файле `.cabal` для билда приложения.
 
-Now try to go to [`localhost:3000/echo/foo`](http://localhost:3000/echo/foo).
-You should get a message explaining that `getEchoR` is not yet implemented.
+А теперь попробуем перейти по этому адресу: [`localhost:3000/echo/foo`](http://localhost:3000/echo/foo).
+Вы должны увидеть сообщение, объясняющее, что `getEchoR` пока не реализована.
 
-So let's take a look at `Handler/Echo.hs`:
+Так давйте взглянем на `Handler/Echo.hs`:
 
 ~~~ {.haskell}
 module Handler.Echo where
@@ -235,8 +233,8 @@ getEchoR :: String -> Handler Html
 getEchoR = error "Not yet implemented: getEchoR"
 ~~~
 
-This should be straightforward.
-Now we can replace it with this:
+Вот это мы и увидим.
+Теперь мы можем заменить это таким образом: 
 
 ~~~ {.haskell}
 module Handler.Echo where
@@ -247,24 +245,24 @@ getEchoR :: String -> Handler Html
 getEchoR theText = defaultLayout [whamlet|<h1>#{theText}|]
 ~~~
 
-Don't worry if you find all of this a bit cryptic.
-In short it just declares a function named `getEchoR` with one argument (`theText`) of type `String`.
-When this function is called, it returns a `Handler Html` whatever it is.
-But mainly this will encapsulate our expected result inside an %html text.
+Не беспокойтесь, если вы найдёте это немного загадочным.
+Вкратце, здесь просто объявляется функция с именем `getEchoR` с одним аргументом (`theText`) типа `String`.
+Когда происходит вызов этой функции, она возвращает `Handler Html`, чем бы это ни было.
+Но вообще она инкапсулирует наш ожидаемый результат внутрь %html текста.
 
-After saving the file, you should see Yesod recompile the application.
-When the compilation is finished you'll see the message: `Starting devel application`.
+После сохранения файла, вы должны увидеть, как Yesod пересобирает приложение.
+Когда компиляция завершится, вы увидите сообщение: `Starting devel application`.
 
-Now you can visit: [`http://localhost:3000/echo/Yesod%20rocks!`](http://localhost:3000/echo/Yesod%20rocks!)
+Теперь перейдите по следующей ссылке: [`http://localhost:3000/echo/Yesod%20rocks!`](http://localhost:3000/echo/Yesod%20rocks!)
 
-TADA! It works!
+ТА-ДАМ! Оно работает!
 
-### Bulletproof?
+### Пуленепробиваемый?
 
-blogimage("neo_bullet_proof.jpg","Neo stops a myriad of bullets")
+blogimage("img/05_neo_bullet_proof.jpg","Neo stops a myriad of bullets")
 
-Even this extremely minimal web application has some impressive properties.
-For example, imagine an attacker entering this %url:
+Даже это невероятно маленькое web-приложение обладает некоторыми впечатляющими свойствами.
+Например, представим хакера, который пробует такой %url:
 
 <div class="small">
 
@@ -274,13 +272,12 @@ For example, imagine an attacker entering this %url:
 
 [bad]: http://localhost:3000/echo/I'm%20%3Cscript%3Ealert(%22Bad!%22);%3C%2Fscript%3E
 
-You can click on it to test it.
+Перейдите по ссылке и протестируйте приложение.
 
-The special characters are protected for us, preventing a malicious user from
-hiding a bad script within the url.
+Специальные символы защищены так, что сокрытие злоумышленником вредоносного кода внутри %url предотвращается.
 
-This behavior is a direct consequence of _type safety_.
-The %url string is put inside a %url type.
+Это поведение - прямое следствие _безопасности типов_.
+%url строка помещается внутрь типа %url.
 Then the interesting part in the %url is put inside a String type.
 To pass from %url type to String type some transformations are made.
 For example, all instances of "`%20`" are replaced by space characters.
