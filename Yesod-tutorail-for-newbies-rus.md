@@ -245,7 +245,7 @@ getEchoR :: String -> Handler Html
 getEchoR theText = defaultLayout [whamlet|<h1>#{theText}|]
 ~~~
 
-Не беспокойтесь, если вы найдёте это немного загадочным.
+Не беспокойтесь, если вы найдёте код выше немного загадочным.
 Вкратце, здесь просто объявляется функция с именем `getEchoR` с одним аргументом (`theText`) типа `String`.
 Когда происходит вызов этой функции, она возвращает `Handler Html`, чем бы это ни было.
 Но вообще она инкапсулирует наш ожидаемый результат внутрь %html текста.
@@ -255,7 +255,7 @@ getEchoR theText = defaultLayout [whamlet|<h1>#{theText}|]
 
 Теперь перейдите по следующей ссылке: [`http://localhost:3000/echo/Yesod%20rocks!`](http://localhost:3000/echo/Yesod%20rocks!)
 
-ТА-ДАМ! Оно работает!
+ТА-ДАМ! Работает!
 
 ### Пуленепробиваемый?
 
@@ -278,12 +278,12 @@ blogimage("img/05_neo_bullet_proof.jpg","Neo stops a myriad of bullets")
 
 Это поведение - прямое следствие _безопасности типов_.
 %url строка помещается внутрь типа %url.
-Then the interesting part in the %url is put inside a String type.
-To pass from %url type to String type some transformations are made.
-For example, all instances of "`%20`" are replaced by space characters.
-Then to show the String inside an %html document, the string is put inside an %html type.
-Some transformations occurs like replace "<code><</code>" by "`&lt;`".
-Thanks to Yesod, this tedious job is done for us.
+Затем идёт интересная часть, когда %url переводится в тип `String`.
+Во время перевода происходят некоторые трансформации.
+Например, все экземпляры "`%20`" заменяются пробелами.
+Затем, для того, чтобы показать строку внутри %html документа, строка помещается внутрь типа %html.
+Производятся такие трансформации, как, например, замена "<code><</code>" на "`%lt;`".
+Спасибо Yesod, эту нудную работу он делает за нас.
 
 ~~~~~~ {.bash}
 "http://localhost:3000/echo/some%20text%3Ca%3E" :: URL
@@ -293,38 +293,38 @@ Thanks to Yesod, this tedious job is done for us.
           "some text &amp;lt;a&amp;gt;"         :: Html
 ~~~~~~
 
-Yesod is not only fast, it helps us to remain secure.
-It protects us from many common errors in other paradigms.
-Yes, I am looking at you, PHP!
+Yesod - не только быстрый, но он ещё и помагает приложениям оставаться безопасными.
+Он защищает нас от мнодества общих ошибок в других парадигмах.
+Да, я на тебя смотрю, PHP!
 
-### Cleaning up
+### Доводим до блеска
 
-Even this very minimal example should be enhanced.
-We will clean up many details:
+Даже этот очень маленький пример может быть улучшен.
+Мы произведём следующие модификации:
 
-- Use `Data.Text` instead of `String`
-- Put our "views"[^explainviewwidget] inside the `template` directory
+- Используем `Data.Text` вместо `String`
+- Положим наши "представления"[^explainviewwidget] в директорию `template`
 
-[^explainviewwidget]: By view I mean yesod widget's hamlet, lucius and julius files.
+[^explainviewwidget]: Под представлением я подразумеваю файлы виджетов yesod (гамлет, люциус и джулиус).
 
 #### `Data.Text`
 
-It is a good practice to use `Data.Text` instead of `String`.
+Использование `Data.Text` вместо `String` является хорошей практикой.
 
-To declare it, add this import directive to `Foundation.hs` (just after the last one):
+Для объявления, добавим следующую инструкцию в `Foundation.hs` (сразу после остальных):
 
 ~~~~~~ {.diff}
 import Data.Text
 ~~~~~~
 
-We have to modify `config/routes` and our handler accordingly.
-Replace `#String` by `#Text` in `config/routes`:
+Мы должны изменить `config/routes` и наш обработчик соответственно.
+Заменим `#String` на `#Text` в `config/routes`:
 
 <pre>
 /echo/{-hi-}#Text{-/hi-} EchoR GET
 </pre>
 
-And do the same in `Handler/Echo.hs`:
+И сделаем то же для `Handler/Echo.hs`:
 
 ~~~~~~ {.haskell}
 module Handler.Echo where
@@ -335,17 +335,17 @@ getEchoR :: {-hi-}Text{-/hi-} -> Handler Html
 getEchoR theText = defaultLayout [whamlet|<h1>#{theText}|]
 ~~~~~~
 
-#### Use templates
+#### Использование шаблонов
 
-Some %html (more precisely hamlet) is written directly inside our handler.
-We should put this part inside another file.
-Create the new file `templates/echo.hamlet` containing:
+Некоторый %html (более точно - гамлет) записан прямо внутрь нашего обработчика.
+Мы должны убрать его внутрь дорого файла.
+Создадим новый файл `templates/echo.hamlet`, содержащий:
 
 ~~~~~~ {.haskell}
 <h1> #{theText}
-~~~~~~
+~~~~~a~
 
-and modify the handler `Handler/Echo.hs`:
+и отредактируем обработчик `Handler/Echo.hs`:
 
 ~~~~~~ {.haskell}
 module Handler.Echo where
@@ -356,21 +356,21 @@ getEchoR :: Text -> Handler Html
 getEchoR theText = defaultLayout {-hi-}$(widgetFile "echo"){-/hi-}
 ~~~~~~
 
-At this point, our web application is nicely structured.
-We use `Data.Text` and our views are in templates.
-It is the time to make a slightly more complex example.
+Теперь наше web приложение прекрасно структурировано.
+Мы используем `Data.Text` и наши представления лежат в шаблонах.
+Самое время перейти к немного более сложным примерам.
 
-## Mirror
+## Зеркало
 
-leftblogimage("mirror.jpg","Neo touching a mirror")
+leftblogimage("img/06_mirror.jpg","Neo touching a mirror")
 
-Let's make another minimal application.
-You should see a form containing a text field and a validation button.
-When you enter some text (for example "Jormungad") and validate it,
-the next page presents the content to you with its reverse appended to it.
-In our example, it should return "JormungaddagnumroJ".
+Давайте сделаем другое небольшое приложение.
+Вы увидите форму, содержащую поле для ввода текста и кнопку для валидации.
+Когда вы введёте некоторый текст, (например, "Главрыба") и нажмёте на кнопку, 
+на следующей странице отобразится введённая вами строка, к которой будет присоединена та же, только перевёрнутая строка.
+В нашем примере должна вернуться "ГлаврыбаабырвалГ".
 
-First, add a new handler:
+Сначала добавим новый обработчик:
 
 ~~~ {.no-highlight}
  ~/Sites/yosog (master) $ {-hi-}yesod add-handler{-/hi-}
@@ -379,8 +379,8 @@ Enter route pattern (ex: /entry/#EntryId): {-hi-}/mirror{-/hi-}
 Enter space-separated list of methods (ex: GET POST): {-hi-}GET POST{-/hi-}
 ~~~
 
-This time the path `/mirror` will accept GET and POST requests.
-Update the corresponding new Handler file (`Handler/Mirror.hs`):
+С этого момента путь `/mirror` будет принимать GET и POST запросы.
+Обноаим файл, соответствующий разработчику (`Handler/Mirror.hs`):
 
 ~~~~~~ {.haskell}
 module Handler.Mirror where
@@ -397,15 +397,15 @@ postMirrorR =  do
         defaultLayout $(widgetFile "posted")
 ~~~~~~
 
-We will need to use the `reverse` function provided by `Data.Text`
-which explains the additional import.
+Нам понадобится функция `reverse` из пакета `Data.Text`,
+которая объясняется дополнительным импортом.
 
-The only new thing here is the line that gets the POST parameter named "content".
-If you want to know more detail about it and forms in general you can take a
-look at [the Yesod book](http://www.yesodweb.com/book/forms).
+Единственная новая вещь здесь - это линия, которая получает параметр POST запроса, названная "content".
+Если вы хотите побольше о ней и о формах в общем, 
+вы можете взглянуть на [the Yesod book](http://www.yesodweb.com/book/forms).
 
-Create the two corresponding templates
-(`templates/mirror.hamlet` and `templates/posted.hamlet`):
+Создадим два соответствующих шаблона
+(`templates/mirror.hamlet` и `templates/posted.hamlet`):
 
 ~~~~~~ {.html}
 <h1> Enter your text
@@ -421,15 +421,14 @@ Create the two corresponding templates
 <p><a href=@{MirrorR}>Get back
 ~~~~~~
 
-And that is all.
-This time, we won't need to clean up.
-We might have generated the form a different way,
-but we'll see how to do this in the next section.
+И всё.
+В этот раз нам не нужно ничего вычищать.
+Мы можем сгенерировать форму по-другому,
+но мы увидим, как это сделать, в следующем разделе.
+Попробуйте [перейти сюда](http://localhost:3000/mirror).
 
-Just try it by [clicking here](http://localhost:3000/mirror).
-
-Also you can try to enter strange values (like `<script>alert('Bad');</script>`).
-As before, your application is quite secure.
+Мы также можем попробовать ввести странные значения (как, например `<script>alert('Bad');</script>`).
+Как и раньше, наше приложение по-прежнему безопасно.
 
 ## A Blog
 
