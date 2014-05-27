@@ -27,13 +27,13 @@ Yesod - это web-фреймворк на Haskell.
 
 blogimage("img/02_haskell-benchmark.png","Impressive Haskell Benchmark")
 
-Из-за его производительности (см. <a href="http://snapframework.com/blog/2010/11/17/snap-0.3-benchmarks">бенчмарк Snap</a> и <a href="http://www.yesodweb.com/blog/2011/03/preliminary-warp-cross-language-benchmarks"/>).
-Haskell на порядок быстрее, чем такие интерпретируемые языки, как <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=yarv">Ruby</a> и <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=python3">Python</a> <a href="fn#2">[2]</a>.
-Haskell - высокоуровневый язык программирования, с помощью которого гораздо тяжелее выстрелить себе в ногу по сравнению с `C`, `C++` или `Java`. 
-Одно из лучших свойств Haskell:
+- Из-за его производительности (см. <a href="http://snapframework.com/blog/2010/11/17/snap-0.3-benchmarks">бенчмарк Snap</a> и <a href="http://www.yesodweb.com/blog/2011/03/preliminary-warp-cross-language-benchmarks"/>).
+- Haskell на порядок быстрее, чем такие интерпретируемые языки, как <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=yarv">Ruby</a> и <a href="http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=python3">Python</a> <a href="fn#2">[2]</a>.
+- Haskell - высокоуровневый язык программирования, с помощью которого гораздо тяжелее выстрелить себе в ногу по сравнению с `C`, `C++` или `Java`. 
+- Одно из лучших свойств Haskell:
 > Если оно компилируется, значит, оно работает.
 
-Web-фреймворк на Haskell идеально обрабатывает распараллеленные задачи, даже лучше, чем, например, node.js <a href="fn#3">[3].</a>
+- Web-фреймворк на Haskell идеально обрабатывает распараллеленные задачи, даже лучше, чем, например, node.js <a href="fn#3">[3].</a>
 
 leftblogimage("img/03_thousands_smiths.jpg","Thousands of Agent Smith")
 
@@ -343,7 +343,7 @@ getEchoR theText = defaultLayout [whamlet|<h1>#{theText}|]
 
 ~~~~~~ {.haskell}
 <h1> #{theText}
-~~~~~a~
+~~~~~~
 
 и отредактируем обработчик `Handler/Echo.hs`:
 
@@ -431,16 +431,16 @@ postMirrorR =  do
 
 ## Блог
 
-We saw how to retrieve %http parameters.
-It is the time to save things into a database.
+Мы узнали, как доставать %http параметры запросы.
+Самое время узнать, как сохранять данные в базу данных.
 
-This example will be very minimal:
+Этот пример будет очень небольшим:
 
-- `GET`  on `/blog` should display the list of articles,
-- `POST` on `/blog` should create a new article,
-- `GET`  on `/blog/<article id>` should display the content of the article.
+- `GET`  по адресу `/blog` должен отображать список статей,
+- `POST` по адресу `/blog` должен создавать новую статью,
+- `GET`  по адресу `/blog/<код статьи>` должен отображать содержимое статьи по его коду.
 
-As before, we'll start by adding some handlers:
+Как и ранее, начнём с добавления некоторых обработчиков:
 
 ~~~
 ~/Sites/yosog (master) $ yesod add-handler
@@ -454,8 +454,8 @@ Enter route pattern (ex: /entry/#EntryId): /blog/#ArticleId
 Enter space-separated list of methods (ex: GET POST): GET
 ~~~
 
-Then we declare another model object.
-Append the following content to `config/models`:
+Затем объявим объект модели данных.
+Допишем следующий код в конец файла `config/models`:
 
 ~~~
 Article
@@ -464,14 +464,13 @@ Article
     deriving
 ~~~
 
-As `Html` is not an instance of `Read`, `Show` and `Eq`,
-we had to add the `deriving` line.
-If you forget it, there will be an error.
+Поскольку `Html` не является экземпляром классов `Read`, `Show` и `Eq`,
+добавим строку `deriving` после объявления.
+Если вы забудете это сделать, то увидите сообщение об ошибке.
 
-After the route and the model, we write the handler.
-Let's write the content of `Handler/Blog.hs`.
-We start by declaring the module and by importing some block necessary to
-handle Html in forms.
+После настройки маршрутизации и модели мы напишем обработчик 
+для блога `Handler/Blog.hs`.
+Начнём с объявления модуля и импорта некоторых пакетов для валидации форм.
 
 ~~~~~~ {.haskell}
 module Handler.Blog
@@ -482,16 +481,16 @@ where
 
 import Import
 
--- to use Html into forms
+-- для использования Html в формах
 import Yesod.Form.Nic (YesodNic, nicHtmlField)
 instance YesodNic App
 ~~~~~~
 
-_Remark_: it is a best practice to add the YesodNic instance inside `Foundation.hs`.
-I put this definition here to make things easier but you should see a warning about this orphan instance.
-To put the include inside Foundation.hs is left as an exercice to the reader.
+_Замечание_: хорошей практикой считается добавление импорта YesodNic в `Foundation.hs`.
+Я положил определение здесь для того, чтобы было нагляднее, однако при компиляции вы должны увидеть предупреждение вида `orphan instance`.
+Устранение замечания оставлено в качестве упражнения для читателя.
 
-_Hint_: Do not forget to put `YesodNic` and `nicHtmlField` inside the exported objects of the module.
+_Подсказка_: Не забудьте указать `YesodNic` и `nicHtmlField` среди экспортируемых объектов модуля.
 
 ~~~~~~ {.haskell}
 entryForm :: Form Article
@@ -500,28 +499,28 @@ entryForm = renderDivs $ Article
     <*> areq   nicHtmlField "Content" Nothing
 ~~~~~~
 
-This function defines a form for adding a new article.
-Don't pay attention to all the syntax.
-If you are curious you can take a look at Applicative Functor.
-You just have to remember `areq` is for required form input.
-Its arguments being: `areq type label default_value`.
+Функция `entryForm` определяет форму для добавления новой статьи.
+Не обращайте внимания на её синтаксис.
+Если вам интересно - посмотрите в сторону Аппликативных функторов.
+Сейчас вам достаточно запомнить, что `areq` необходим для элементов ввода данных формы.
+Её аргументы идут в таком порядке: `areq тип ссылка значение_по_умолчанию`.
 
 ~~~~~~ {.haskell}
--- The view showing the list of articles
+-- Представление, показывающее список статей
 getBlogR :: Handler Html
 getBlogR = do
-    -- Get the list of articles inside the database.
+    -- Запросить список статей из базы
     articles <- runDB $ selectList [] [Desc ArticleTitle]
-    -- We'll need the two "objects": articleWidget and enctype
-    -- to construct the form (see templates/articles.hamlet).
+    -- Для построения формы (см. templates/articles.hamlet)
+    -- нас интересуют два "объекта": `articleWidget` и `enctype`
     (articleWidget, enctype) <- generateFormPost entryForm
     defaultLayout $ do
         $(widgetFile "articles")
 ~~~~~~
 
-This handler should display a list of articles.
-We get the list from the DB and we construct the form.
-Just take a look at the corresponding template:
+Этот обработчик должен отобразить список статей.
+Мы получим список из базы и создадим форму.
+Только взгляните на соответствующие шаблоны:
 
 ~~~~~~ {.html}
 <h1> Articles
@@ -539,20 +538,20 @@ $else
         <input type=submit value="Post New Article">
 ~~~~~~
 
-Notice we added some logic inside the template.
-There is a test and a "loop".
+Заметьте, что мы добавили немного логики внутрь шаблона.
+Здесь есть проверка и "цикл".
 
-Another very interesting part is the creation of the form.
-The `articleWidget` was created by Yesod.
-We have given it the right parameters
-(input required or optional, labels, default values),
-and now we have a protected form made for us.
-But now we have to create the submit button.
+Ещё одна очень интересная часть - это создание формы.
+С помощью Yesod создаётся `articleWidget`.
+Нами были переданы корректные параметры 
+(обязательный - input, а также по желанию ссылки и значения по умолчанию),
+и теперь для нас создана защищенная форма.
+Но помимо этого нам нужно создать кнопку для отправки данных.
 
-You can take a first look by [clicking here](localhost:3000/blog).
-Of course, you can't post something yet.
+Можете взглянуть на то, что уже есть, [кликнув сюда](localhost:3000/blog).
+Конечно, вы ещё не сможете ничего отправить в блог.
 
-Get back to `Handler/Blog.hs`.
+Вернёмся к `Handler/Blog.hs`.
 
 ~~~~~~ {.haskell}
 postBlogR :: Handler Html
@@ -568,16 +567,16 @@ postBlogR = do
                 $(widgetFile "articleAddError")
 ~~~~~~
 
-This function should be used to create a new article.
-We handle the form response.
-If there is an error we display an error page, for example if we left some required value blank.
-If things go well:
+Эта функция должна отрабатывать создание новой статьи.
+Мы обработаем ответ для формы.
+Если возникла ошибка (например, мы оставили какое-то поле незаполненным) - покажем страницу с ошибкой.
+А если всё хорошо, то:
 
-- we add the new article inside the DB (`runDB $ insert article`)
-- we add a message to be displayed (`setMessage $ ...`)
-- we are redirected to the article web page.
+- поместим новую статью в БД (`runDB $ insert article`)
+- добавим сообщение, которое отобразится на странице (`setMessage $ ...`)
+- переадресуем на страницу со статьёй.
 
-Here is the content of the error Page:
+Ниже содержимое страницы с ошибкой:
 
 ~~~~~~ {.haskell}
 <form method=post enctype=#{enctype}>
@@ -586,8 +585,8 @@ Here is the content of the error Page:
         <input type=submit value="Post New Article">
 ~~~~~~
 
-Finally we need to display an article.
-For this we will modify `Handler/Article.hs`
+Наконец, нам нужно отобразить статью.
+Для этого изменим `Handler/Article.hs`
 
 ~~~~~~ {.haskell}
 getArticleR :: ArticleId -> Handler Html
@@ -598,10 +597,10 @@ getArticleR articleId = do
         $(widgetFile "article")
 ~~~~~~
 
-The `get404` function tries to do a get on the DB.
-If it fails, it returns a 404 page.
-The rest should be clear.
-Here is the content of `templates/article.hamlet`:
+Функция `get404` пытается совершить запрос к БД.
+Если из базы ничего не вернётся, покажем пользователю страницу c 404 кодом.
+Остальное должно быть понятным.
+Ниже содержимое шаблона статьи `templates/article.hamlet`:
 
 ~~~~~~ {.html}
 <h1> #{articleTitle article}
@@ -611,51 +610,49 @@ Here is the content of `templates/article.hamlet`:
     Go to article list.
 ~~~~~~
 
-The blog system is finished.
-You can jump to it by clicking [here](http://localhost:3000/blog).
+Платформа для минимального блога завершена.
+Вы можете перейти к ней, нажав [сюда](http://localhost:3000/blog).
 
-Just for fun, you can try to create an article with the following content:
+По приколу вы можете создать статью со следующим содержанием:
 
 ~~~~~~ {.html}
 Cross Script:
-   <script>alert("You loose");</script>
+   <script>alert("Ну ты попал!");</script>
 
 SQL injection: "); DROP TABLE ARTICLE;;
 ~~~~~~
 
-## Conclusion
+## Заключение
 
-This is the end of this tutorial.
-I made it very minimal.
+Это конец туториала.
+Я сделал его очень маленьким.
 
-If you already know Haskell and you want to go further,
-you should take a look at the
-recent [i18n blog tutorial](http://yesodweb.com/blog/2012/01/blog-example).
-It will be obvious I based my own tutorial on it.
-You'll learn in a very straightforward way how easy it is to use authorization,
-Time and internationalization.
+Если вы уже знакомы с Haskell и хотите идти двигаться дальше,
+обязательно взгляните на недавний [i18n blog tutorial](http://yesodweb.com/blog/2012/01/blog-example).
+Нетрудно заметить, на чём основан мой туториал.
+Вы изучите очень простой способ, как прикрутить к блогу авторизацию,
+время и интернализацию.
 
-If, on the other hand, you don't know Haskell, then you shouldn't jump directly
-to web programming with it.
-Haskell is a very complex and unusual language.
-My advice to go as fast as possible in using Haskell for web programming is:
+А если, с другой стороны, вы не знаете Haskell, тогда не спешите погружаться в web программирование на нём.
+Haskell - очень сложный и необычный язык.
+Мой вам совет: для того, чтобы как можно быстрее начать использовать Haskell в web программировании, нужно:
 
-1. Start by [trying Haskell in your browser](http://tryhaskell.org)
-2. Read my tutorial [Learn Haskell Fast and Hard on School of Haskell](https://www.fpcomplete.com/school/haskell-fast-hard) or directly [on this blog](/Scratch/en/blog/Haskell-the-Hard-Way/)
-3. Then read the excellent [Learn you a Haskell for Great Good](http://learnyouahaskell.com)
-4. If you have difficulty understanding concepts like monads, you should really read [these articles](http://homepages.inf.ed.ac.uk/wadler/topics/monads.html). For me they were enlightening.
-5. If you feel confident, you should be able to follow the
-   [Yesod book](http://yesodweb.com/book) but if you find it difficult to follow the Yesod book, you should read [real world Haskell](http://book.realworldhaskell.org) first.
+1. [Попробовать Haskell прямо в браузере](http://tryhaskell.org)
+2. Прочитать мой туориал [Learn Haskell Fast and Hard on School of Haskell](https://www.fpcomplete.com/school/haskell-fast-hard) или прямо [в моём блоге](http://yannesposito.com/Scratch/en/blog/Haskell-the-Hard-Way/)
+3. Затем прочесть чудеснейшую книгу [Learn you a Haskell for Great Good](http://learnyouahaskell.com)
+4. И если вы испытываете затруднение в понимании таких концепций, как монады, вам стоит прочесть ещё и [эти статьи](http://homepages.inf.ed.ac.uk/wadler/topics/monads.html). С их помощью я обрёл просветление.
+5. Если вы чувствуете себя уверенно, тогда вы в состоянии прочесть [Yesod book](http://yesodweb.com/book), но если вам она покажется трудноватой, то сначала уделите время [Real world Haskell](http://book.realworldhaskell.org).
 
-Also, note that:
+Также нельзя не заметить, что:
 
-- [haskell.org](http://haskell.org) is full of excellent resources.
-- [hoogle](http://www.haskell.org/hoogle/) will be very useful
-- Use [hlint](http://community.haskell.org/~ndm/hlint/) as soon as possible to get good habits.
+- [haskell.org](http://haskell.org) - кладезь бесценной информации.
+- [hoogle](http://www.haskell.org/hoogle/) будет очень полезен.
+- Используйте [hlint](http://community.haskell.org/~ndm/hlint/) как можно быстрее для приобретения хороших привычек.
 
-As you should see, if you don't already know Haskell,
+Как вы могли понять, если вы ещё не знаете Haskell,
+то путь для его изучения долог, но я гарантирую вам, вы будете вознаграждены, пройдя по нему.
 the path is long but I guarantee you it will be very rewarding!
 
-_ps:_ You can download the source of this Yesod blog tutorial at
+_ps:_ исходники оригинала статьи:
 [github.com/yogsototh/yosog](http://github.com/yogsototh/yosog).
 
