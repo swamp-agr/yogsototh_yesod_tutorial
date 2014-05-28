@@ -1,16 +1,10 @@
 -----
-isHidden:       false
-theme: scientific
 image: img/01_flying_neo.jpg
-menupriority:   1
-kind:           article
-published: 2012-01-15
 title: Web-программирование на Haskell
 subtitle: Туториал по Yesod
 author: Yann Esposito
-authoruri: yannesposito.com
-tags:  yesod, haskell, programming, web
------
+translated by: Andre Prokopenko
+
 blogimage("img/01_flying_neo.jpg","Neo Flying at warp speed")
 
 <div class="intro">
@@ -83,11 +77,11 @@ blogimage("img/04_owl_draw.png","1. Draw some circles. 2. Draw the rest of the f
 
 [warpbench]: http://www.yesodweb.com/blog/2011/03/preliminary-warp-cross-language-benchmarks
 
-[^benchmarkdigression]: One can argue these benchmark contains many problems.  But the benchmarks are just here to give the basic idea, namely that Haskell is very fast.
+[^benchmarkdigression]: Можно возразить, сославшись на то, что сами бэнчмарки содержат много ошибок. Но бэнчмарки всего лишь для того, чтобы показать в первом приближении, что Haskell - очень шустрый. 
 
-[^speeddigression]: Generally _high level_ Haskell is slower than C, but _low level_ Haskell is equivalent to C speed. It means that even if you can easily link C code with Haskell, this is not needed to reach the same speed. Furthermore writing a web service in C/C++ seems to be a very bad idea. You can take a look at a [discussion on HN about this](http://news.ycombinator.com/item?id=3449388).
+[^speeddigression]: Вообще, _высокоуровневый_ Haskell медленнее, чем C, но _низкоуровневый_ Haskell не уступает C по скорости. Это значит, что даже если вы можете слинковать код на C с Haskell, не факт, что это действительно нужно делать для достижения той же скорости. Более того, написание веб-сервисов на C/C++ - не самая лучшая идея. Достаточно взглянуть на [обсуждение на HN на эту тему](http://news.ycombinator.com/item?id=3449388).
 
-[^nodejstroll]: If you are curious, you can search about [the Fibonacci node.js troll](http://www.unlimitednovelty.com/2011/10/nodejs-has-jumped-shark.html). Without any tweaking, [Haskell handled this problem perfectly](http://mathias-biilmann.net/posts/2011/10/is-haskell-the-cure). I tested it myself using Yesod instead of Snap.
+[^nodejstroll]: Если вам интересно - поищите про [троллинг node.js с Фибоначчи](http://www.unlimitednovelty.com/2011/10/nodejs-has-jumped-shark.html). Haskell превосходно справляется с этой задачей [без лишних телодвижений](http://mathias-biilmann.net/posts/2011/10/is-haskell-the-cure). Я сам тестировал, используя Yesod вместо Snap.
 
 [haskellvsruby]: http://shootout.alioth.debian.org/u64q/benchmark.php?test=all&lang=ghc&lang2=yarv
 
